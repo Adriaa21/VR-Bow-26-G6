@@ -1,0 +1,21 @@
+# Unity
+/Library/
+/Temp/
+/Obj/
+/Build/
+/Builds/
+/Logs/
+/UserSettings/
+/ArtifactDB
+
+# Visual Studio
+.vs/
+*.csproj
+*.sln
+
+# Burst
+*.burst
+
+# OS generated
+.DS_Store
+Thumbs.db
