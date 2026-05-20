@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-
 public interface IHittable
 {
     public void GetHit();
@@ -17,12 +16,16 @@ public class MovingTarget : MonoBehaviour, IHittable
     private Rigidbody _rb;
     private bool _stopped;
     private Vector3 _origin, _nextPos;
+    private Vector3 _startPosition;
+    private Quaternion _startRotation;
+    private float _resetTimer;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        
-        _origin = _rb.transform.position;
+        _startPosition = transform.position;
+        _startRotation = transform.rotation;
+        _origin = transform.position;
         _nextPos = GetNextPos();
 
         if (ArriveThreshold == 0)
@@ -46,26 +49,39 @@ public class MovingTarget : MonoBehaviour, IHittable
     public void GetHit()
     {
         health--;
-        if (health <=0)
+        if (health <= 0)
         {
             _rb.isKinematic = false;
             _stopped = true;
-            
-            
+            _resetTimer = 3f;
         }
     }
 
     private void ResetTarget()
     {
-        if (_stopped == true)
-        {
-            
-        }
+        transform.position = _startPosition;
+        transform.rotation = _startRotation;
+        _rb.linearVelocity = Vector3.zero;
+        _rb.isKinematic = true;
+        _stopped = false;
+        health = 1;
+        _origin = transform.position;
+        _nextPos = GetNextPos();
     }
 
     private void FixedUpdate()
     {
-        if (_stopped) return;
+        if (_stopped)
+        {
+            
+            _resetTimer -= Time.deltaTime;
+            if (_resetTimer <= 0)
+            {
+                ResetTarget();
+            }
+            return;
+        }
+        
         var pos = transform.position;
         if (Vector3.Distance(pos, _nextPos) < ArriveThreshold)
         {
@@ -94,7 +110,6 @@ public class MovingTarget : MonoBehaviour, IHittable
             Gizmos.DrawLine(transform.position, _nextPos);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(_nextPos, 1f);
-                
         }
     }
 }
