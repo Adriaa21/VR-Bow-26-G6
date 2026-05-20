@@ -25,6 +25,13 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
         private void Start() {
             _interactable.selectEntered.AddListener(Prepare);
             _interactable.selectExited.AddListener(Release);
+            
+            OnBowReleased.AddListener(AAA);
+        }
+
+        private void AAA(float arg0)
+        {
+            print($"Shoot with str {arg0}");
         }
 
         private void OnDestroy() {
