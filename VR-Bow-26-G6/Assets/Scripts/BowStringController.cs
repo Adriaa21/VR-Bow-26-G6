@@ -62,14 +62,23 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
                 float grabLocalBackward = Mathf.Abs(grabLocalPos.z);
 
                 //<0
+                printdebug(grabLocalPos, grabLocalBackward);
                 HandlePushedTowardsBow(grabLocalPos);
                 //>0
+                printdebug(grabLocalPos, grabLocalBackward);
                 HandlePulledToLimit(grabLocalBackward, grabLocalPos);
                 //[0,1]
+                printdebug(grabLocalPos, grabLocalBackward);
                 HandlePull(grabLocalBackward, grabLocalPos);
 
+                printdebug(grabLocalPos, grabLocalBackward);
                 bowString.CreateString(midPointVisual.position);
             }
+        }
+
+        private void printdebug(Vector3 grabLocalPos, float grabLocalBackward)
+        {
+            print($"Está en grabLocalPos:{grabLocalPos},\ngrabLocalBackward {grabLocalBackward},\n_strength{_strength}");
         }
 
         private void HandlePushedTowardsBow(Vector3 grabLocalPos)

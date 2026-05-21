@@ -13,7 +13,7 @@ namespace BowString {
             LR = GetComponent<LineRenderer>();
         }
 
-        private void start()
+        private void Start()
         {
             CreateString(null);
         }
